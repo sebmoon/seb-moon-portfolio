@@ -9,8 +9,6 @@
 ## Target Employers
 
 - Dyson
-- McLaren
-- Williams
 - Apple
 
 ## Notes
