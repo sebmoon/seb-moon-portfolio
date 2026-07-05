@@ -207,7 +207,7 @@ export default function AboutPage() {
         </h2>
         <p className="mt-3 max-w-prose text-muted">
           Two promotional films on the official Loughborough University
-          channel in which I&apos;m a main feature. Click to play.
+          channel in which I&apos;m a key contributor. Click to play.
         </p>
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <YouTubeEmbed
