@@ -14,8 +14,8 @@ export default function ContactPage() {
     <Container className="py-16">
       <h1 className="text-3xl font-semibold tracking-tight">Contact</h1>
       <p className="mt-4 max-w-prose leading-relaxed text-muted">
-        Recruiting, collaborating, or want the full CV including my
-        confidential commercial work? Leave your name, email and a short
+        Recruiting, collaborating, or want the full CV and a walkthrough of
+        my commercial work and skills? Leave your name, email and a short
         message and I&apos;ll come back to you directly. You can also find me
         on{" "}
         <a

@@ -93,15 +93,16 @@ export default function AboutPage() {
               products.
             </p>
             <p className="text-muted">
-              Some of my strongest work — commercial projects for the
-              companies above — is confidential and can&apos;t be shown here.
-              The projects on this site are university and personal work;
-              I&apos;m happy to talk about the commercial work in
+              Alongside the university and personal projects on this site,
+              I&apos;ve delivered commercial design and engineering work for
+              the companies above. That work belongs to my clients and
+              employers, so it isn&apos;t published here — I&apos;m happy to
+              talk through the skills and outcomes in
               conversation. <Link href="/contact" className="text-accent underline underline-offset-2">Get in touch</Link>.
             </p>
           </div>
         </div>
-        <figure className="relative aspect-[4/5] overflow-hidden rounded-lg border border-line bg-surface">
+        <figure className="relative aspect-[6/5] overflow-hidden rounded-lg border border-line bg-surface">
           <Image
             src="/images/about/portrait.png"
             alt="Seb Moon"
