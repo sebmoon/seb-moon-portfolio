@@ -14,10 +14,10 @@ export const metadata: Metadata = pageMetadata(
 /*
  * Photo files expected in /public/images/about/ (added by Seb, .jpg is fine —
  * next/image serves optimised WebP/AVIF automatically):
- *   portrait.jpg   — main front-on photo
+ *   portrait.png   — main front-on photo
  *   lab-1.jpg      — in the lab
  *   lab-2.jpg      — in the lab
- *   workshop.jpg   — in the workshop
+ *   workshop.png   — in the workshop
  *   hazlerigg.jpg  — Hazlerigg Building, Loughborough University
  */
 
@@ -103,7 +103,7 @@ export default function AboutPage() {
         </div>
         <figure className="relative aspect-[4/5] overflow-hidden rounded-lg border border-line bg-surface">
           <Image
-            src="/images/about/portrait.jpg"
+            src="/images/about/portrait.png"
             alt="Seb Moon"
             fill
             priority
@@ -158,10 +158,28 @@ export default function AboutPage() {
         </h2>
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           {[
-            { src: "/images/about/lab-1.jpg", alt: "Seb working in the engineering lab" },
-            { src: "/images/about/lab-2.jpg", alt: "Seb testing hardware in the lab" },
-            { src: "/images/about/workshop.jpg", alt: "Seb in the workshop" },
-            { src: "/images/about/hazlerigg.jpg", alt: "Hazlerigg Building, Loughborough University" },
+            // `position` controls which part of the photo survives the crop:
+            // object-left / object-center / object-right (or object-top etc.)
+            {
+              src: "/images/about/lab-1.jpg",
+              alt: "Seb working in the engineering lab",
+              position: "object-right",
+            },
+            {
+              src: "/images/about/lab-2.jpg",
+              alt: "Seb testing hardware in the lab",
+              position: "object-center",
+            },
+            {
+              src: "/images/about/workshop.png",
+              alt: "Seb in the workshop",
+              position: "object-center",
+            },
+            {
+              src: "/images/about/hazlerigg.jpg",
+              alt: "Hazlerigg Building, Loughborough University",
+              position: "object-center",
+            },
           ].map((img) => (
             <figure
               key={img.src}
@@ -172,7 +190,7 @@ export default function AboutPage() {
                 alt={img.alt}
                 fill
                 sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-cover"
+                className={`object-cover ${img.position}`}
               />
             </figure>
           ))}
