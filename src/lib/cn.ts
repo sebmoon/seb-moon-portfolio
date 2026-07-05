@@ -1,0 +1,4 @@
+/** Minimal class-name joiner — avoids a clsx dependency. */
+export function cn(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
