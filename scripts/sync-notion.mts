@@ -25,7 +25,7 @@ import { Client } from "@notionhq/client";
 import sharp from "sharp";
 import matter from "gray-matter";
 
-const DATABASE_ID = "025e9d5b-da17-4508-9f6a-d08185f95091"; // Featured Work
+const DATABASE_ID = "f96b9358-5fbd-4fbc-a65d-1d797c4f8df0"; // Featured Work
 const CONTENT_DIR = path.join(process.cwd(), "content", "projects");
 const IMAGES_DIR = path.join(process.cwd(), "public", "images");
 
