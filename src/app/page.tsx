@@ -11,14 +11,16 @@ export default function HomePage() {
       <section className="py-20 sm:py-28">
         <Container>
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Multi-disciplinary engineering student designing and building
-            products people actually need.
+            Product design engineer building robust, manufacturable products.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-            I work across product design, mechatronics and manufacturing —
-            from user research and CAD to prototyping, testing and the
-            workshop floor. Every project below is presented as an
-            engineering case study: the problem, the decisions, the evidence.
+            MSc Advanced Manufacturing Engineering &amp; Management at
+            Loughborough University (predicted Distinction), BEng (Hons)
+            Product Design Engineering with DIS. Industry experience across
+            agricultural, renewable-energy and sports engineering hardware —
+            from first-principles concept work and CAD to prototyping,
+            testing and manufacture. Every project below is an engineering
+            case study: the problem, the decisions, the evidence.
           </p>
           <div className="mt-8 flex gap-4">
             <Link

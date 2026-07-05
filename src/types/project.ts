@@ -35,6 +35,14 @@ export const CASE_STUDY_SECTIONS = [
   "Downloads",
 ] as const;
 
+export interface ProjectVideo {
+  /** YouTube video id, e.g. "fyANC0jjVWE" */
+  youtubeId: string;
+  title: string;
+  /** Optional start offset in seconds */
+  start?: number;
+}
+
 export interface ProjectImage {
   /** Path under /public, e.g. /images/twist/hero.webp */
   src: string;
@@ -47,7 +55,7 @@ export interface ProjectImage {
 export interface ProjectFrontmatter {
   title: string;
   slug: string;
-  /** Display year (from Notion date; see docs/decisions on date cleanup). */
+  /** Display year — synced from the Notion Date property. */
   year: number;
   tier: Tier;
   disciplines: Discipline[];
@@ -59,6 +67,10 @@ export interface ProjectFrontmatter {
   order?: number;
   /** Featured on the home page. Only flagships should set this. */
   featured?: boolean;
+  /** Short recognition line rendered as a callout (e.g. cohort showcase). */
+  highlight?: string;
+  /** Embedded videos rendered after the body. Preserved across syncs. */
+  videos?: ProjectVideo[];
   /** Notion page id this file was synced from (traceability). */
   notionId?: string;
   draft?: boolean;

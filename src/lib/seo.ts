@@ -4,7 +4,7 @@ export const SITE = {
   name: "Seb Moon",
   title: "Seb Moon — Product Design Engineer",
   description:
-    "Engineering portfolio of Seb Moon: product design, mechatronics and manufacturing projects presented as engineering case studies.",
+    "Portfolio of Seb Moon: product design engineer and MSc Advanced Manufacturing Engineering student at Loughborough University. Projects in product design, mechatronics and manufacturing, presented as engineering case studies.",
   url: "https://www.sebmoon.dev",
   linkedin: "https://www.linkedin.com/in/sebmoon/",
 } as const;
@@ -31,7 +31,11 @@ export function personJsonLd() {
     name: SITE.name,
     url: SITE.url,
     sameAs: [SITE.linkedin],
-    jobTitle: "Product Design Engineering student",
+    jobTitle: "Product Design Engineer",
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: "Loughborough University",
+    },
   };
 }
 

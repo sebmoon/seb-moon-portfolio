@@ -18,6 +18,12 @@ const imageSchema = z.object({
   caption: z.string().optional(),
 });
 
+const videoSchema = z.object({
+  youtubeId: z.string().regex(/^[\w-]{6,20}$/),
+  title: z.string().min(1),
+  start: z.number().int().nonnegative().optional(),
+});
+
 const frontmatterSchema = z.object({
   title: z.string().min(1),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "kebab-case slugs only"),
@@ -29,6 +35,8 @@ const frontmatterSchema = z.object({
   hero: imageSchema.optional(),
   order: z.number().int().optional(),
   featured: z.boolean().optional(),
+  highlight: z.string().optional(),
+  videos: z.array(videoSchema).optional(),
   notionId: z.string().optional(),
   draft: z.boolean().optional(),
 });

@@ -77,6 +77,30 @@ async function readExistingFrontmatter(slug: string) {
   }
 }
 
+/**
+ * Index existing content files by their notionId so re-syncs always update
+ * the same file, regardless of how the Notion page title is written.
+ * (Slug-from-title matching caused duplicate pages; ids are stable.)
+ */
+async function loadExistingIndex(): Promise<Map<string, string>> {
+  const index = new Map<string, string>();
+  let files: string[] = [];
+  try {
+    files = (await fs.readdir(CONTENT_DIR)).filter((f) => f.endsWith(".mdx"));
+  } catch {
+    return index;
+  }
+  for (const file of files) {
+    const raw = await fs.readFile(path.join(CONTENT_DIR, file), "utf8");
+    const data = matter(raw).data as Record<string, unknown>;
+    if (typeof data.notionId === "string") {
+      // Notion ids appear with and without dashes; normalise.
+      index.set(data.notionId.replace(/-/g, ""), file.replace(/\.mdx$/, ""));
+    }
+  }
+  return index;
+}
+
 async function optimiseImage(
   buffer: Buffer,
   slug: string,
@@ -137,10 +161,16 @@ function richTextToMd(rich: Array<Record<string, any>> = []): string {
     .join("");
 }
 
-async function syncPage(page: Record<string, any>, only?: string) {
+async function syncPage(
+  page: Record<string, any>,
+  index: Map<string, string>,
+  only?: string,
+) {
   const props = page.properties;
   const title: string = richTextToMd(props.Name?.title) || "Untitled";
-  const slug = slugify(title.split("—")[0].split("-")[0].trim()) || page.id;
+  // Match by notionId first — never create a second file for a known page.
+  const slug =
+    index.get(String(page.id).replace(/-/g, "")) ?? (slugify(title) || page.id);
 
   if (only && slug !== only) return;
 
@@ -224,9 +254,11 @@ async function syncPage(page: Record<string, any>, only?: string) {
   const fm: Record<string, unknown> = {
     title: (existing.title as string) ?? title,
     slug,
-    year:
-      (existing.year as number) ??
-      (dateStart ? Number(dateStart.slice(0, 4)) : new Date().getFullYear()),
+    // Facts live in Notion: the Date property always wins, so date edits in
+    // Notion flow straight to the site on the next sync.
+    year: dateStart
+      ? Number(dateStart.slice(0, 4))
+      : ((existing.year as number) ?? new Date().getFullYear()),
     tier: existing.tier ?? "project",
     disciplines: existing.disciplines ?? ["Product Design"],
     roles: roles.length ? roles : ((existing.roles as string[]) ?? ["Engineer"]),
@@ -234,6 +266,9 @@ async function syncPage(page: Record<string, any>, only?: string) {
     ...(hero ? { hero } : {}),
     ...(existing.order !== undefined ? { order: existing.order } : {}),
     ...(existing.featured !== undefined ? { featured: existing.featured } : {}),
+    // Curated fields preserved across syncs:
+    ...(existing.highlight !== undefined ? { highlight: existing.highlight } : {}),
+    ...(existing.videos !== undefined ? { videos: existing.videos } : {}),
     notionId: page.id,
   };
 
@@ -258,8 +293,21 @@ async function main() {
   } while (cursor);
 
   console.log(`${pages.length} projects in Notion`);
+  const index = await loadExistingIndex();
   for (const page of pages) {
-    await syncPage(page, only);
+    await syncPage(page, index, only);
+  }
+
+  // Flag content files whose Notion page no longer exists (never auto-delete).
+  const liveIds = new Set(
+    pages.map((p) => String(p.id).replace(/-/g, "")),
+  );
+  for (const [notionId, slug] of index) {
+    if (!liveIds.has(notionId)) {
+      console.warn(
+        `! content/projects/${slug}.mdx has no matching Notion page — delete manually if the project was removed`,
+      );
+    }
   }
   console.log("Done. Review the git diff, then commit.");
 }

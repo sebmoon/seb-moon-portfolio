@@ -4,6 +4,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { Container } from "@/components/layout/Container";
 import { ProjectHeader } from "@/components/project/ProjectHeader";
 import { Prose } from "@/components/ui/Prose";
+import { YouTubeEmbed } from "@/components/ui/YouTubeEmbed";
 import { getAllProjects, getProject } from "@/lib/content";
 import { pageMetadata, projectJsonLd } from "@/lib/seo";
 
@@ -47,7 +48,27 @@ export default async function ProjectPage({
       />
       <article>
         <ProjectHeader project={project} />
+        {project.highlight && (
+          <aside
+            aria-label="Recognition"
+            className="mt-8 max-w-prose rounded-lg border-l-4 border-accent bg-surface px-5 py-4 text-sm leading-relaxed"
+          >
+            {project.highlight}
+          </aside>
+        )}
         <Prose className="mt-4">{content}</Prose>
+        {project.videos && project.videos.length > 0 && (
+          <section aria-label="Videos" className="mt-12 max-w-prose space-y-6">
+            {project.videos.map((v) => (
+              <YouTubeEmbed
+                key={v.youtubeId}
+                youtubeId={v.youtubeId}
+                title={v.title}
+                start={v.start}
+              />
+            ))}
+          </section>
+        )}
       </article>
     </Container>
   );
