@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { YouTubeEmbed } from "@/components/ui/YouTubeEmbed";
+import { TestimonialCarousel } from "@/features/testimonials/TestimonialCarousel";
 import { pageMetadata, personJsonLd } from "@/lib/seo";
+import { TESTIMONIALS } from "@/lib/testimonials";
 
 export const metadata: Metadata = pageMetadata(
   "About",
@@ -102,7 +104,7 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        <figure className="relative aspect-[6/5] overflow-hidden rounded-lg border border-line bg-surface">
+        <figure className="relative aspect-[5.8/5] overflow-hidden rounded-lg border border-line bg-surface">
           <Image
             src="/images/about/portrait.png"
             alt="Seb Moon"
@@ -217,6 +219,23 @@ export default function AboutPage() {
             youtubeId="Vl5eqn6qVJs"
             title="Loughborough University — promotional film"
           />
+        </div>
+      </section>
+
+      {/* References */}
+      <section aria-labelledby="references-heading" className="mt-16">
+        <h2
+          id="references-heading"
+          className="text-xl font-semibold tracking-tight"
+        >
+          In their words
+        </h2>
+        <p className="mt-2 text-sm text-muted">
+          From written recommendation letters — full copies available on
+          request.
+        </p>
+        <div className="mt-6">
+          <TestimonialCarousel items={TESTIMONIALS} />
         </div>
       </section>
 

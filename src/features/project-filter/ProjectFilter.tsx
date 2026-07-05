@@ -7,8 +7,8 @@ import { ProjectCard } from "@/components/project/ProjectCard";
 import { cn } from "@/lib/cn";
 
 /**
- * The only client component at launch. Receives the full (small) project
- * list from the server and filters in memory — no fetching, no state library.
+ * Client-side discipline filter. Receives the full (small) project list from
+ * the server and filters in memory — no fetching, no state library.
  */
 export function ProjectFilter({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState<Discipline | null>(null);
@@ -39,12 +39,28 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
           </FilterButton>
         ))}
       </div>
-      <ul className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((p) => (
           <li key={p.slug}>
             <ProjectCard project={p} />
           </li>
         ))}
+        {/* Placeholder — not a project page, just a signpost for what's coming */}
+        <li aria-hidden="false">
+          <div className="flex h-full min-h-64 flex-col items-center justify-center rounded-xl border-2 border-dashed border-line bg-surface p-6 text-center">
+            <span className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-medium text-muted">
+              In progress
+            </span>
+            <h3 className="mt-4 text-base font-semibold tracking-tight">
+              MSc projects — coming soon
+            </h3>
+            <p className="mt-2 max-w-xs text-sm text-muted">
+              Case studies from my Advanced Manufacturing Engineering and
+              Management MSc — robotics, automation and machine learning —
+              will be published here as they complete.
+            </p>
+          </div>
+        </li>
       </ul>
       {visible.length === 0 && (
         <p className="mt-8 text-sm text-muted">No projects in this category.</p>

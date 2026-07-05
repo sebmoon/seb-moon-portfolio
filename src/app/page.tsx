@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { ProjectCard } from "@/components/project/ProjectCard";
+import { TestimonialCarousel } from "@/features/testimonials/TestimonialCarousel";
 import { getFeaturedProjects } from "@/lib/content";
+import { TESTIMONIALS } from "@/lib/testimonials";
 
 export default function HomePage() {
   const featured = getFeaturedProjects();
@@ -25,13 +27,13 @@ export default function HomePage() {
           <div className="mt-8 flex gap-4">
             <Link
               href="/projects"
-              className="rounded-md bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-opacity hover:opacity-85"
+              className="rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-opacity hover:opacity-85"
             >
               View projects
             </Link>
             <Link
               href="/about"
-              className="rounded-md border border-line px-5 py-2.5 text-sm font-medium transition-colors hover:border-ink"
+              className="rounded-lg border border-ink/20 px-5 py-2.5 text-sm font-medium transition-colors hover:border-ink hover:bg-surface"
             >
               About me
             </Link>
@@ -45,17 +47,38 @@ export default function HomePage() {
             <h2 id="featured-heading" className="text-xl font-semibold tracking-tight">
               Selected work
             </h2>
-            <Link href="/projects" className="text-sm text-muted hover:text-ink">
+            <Link
+              href="/projects"
+              className="text-sm font-medium text-accent hover:underline"
+            >
               All projects →
             </Link>
           </div>
-          <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2">
+          <ul className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             {featured.map((p) => (
               <li key={p.slug}>
                 <ProjectCard project={p} />
               </li>
             ))}
           </ul>
+        </Container>
+      </section>
+
+      <section aria-labelledby="references-heading" className="py-16">
+        <Container>
+          <h2
+            id="references-heading"
+            className="text-center text-xl font-semibold tracking-tight"
+          >
+            In their words
+          </h2>
+          <p className="mt-2 text-center text-sm text-muted">
+            From written recommendation letters — full copies available on
+            request.
+          </p>
+          <div className="mx-auto mt-8 max-w-3xl">
+            <TestimonialCarousel items={TESTIMONIALS} />
+          </div>
         </Container>
       </section>
     </>
