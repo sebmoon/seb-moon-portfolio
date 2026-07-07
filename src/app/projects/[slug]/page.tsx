@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { Container } from "@/components/layout/Container";
 import { ProjectHeader } from "@/components/project/ProjectHeader";
+import { ProjectPagination } from "@/components/project/ProjectPagination";
 import { Prose } from "@/components/ui/Prose";
 import { YouTubeEmbed } from "@/components/ui/YouTubeEmbed";
 import { getAllProjects, getProject } from "@/lib/content";
@@ -70,6 +71,7 @@ export default async function ProjectPage({
           </section>
         )}
       </article>
+      <ProjectPagination currentSlug={project.slug} />
     </Container>
   );
 }

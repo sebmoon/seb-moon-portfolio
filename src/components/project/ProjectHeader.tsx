@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Project } from "@/types/project";
-import { Tag } from "@/components/ui/Tag";
+import { DisciplineTag, Tag } from "@/components/ui/Tag";
 
 export function ProjectHeader({ project }: { project: Project }) {
   return (
@@ -17,7 +17,7 @@ export function ProjectHeader({ project }: { project: Project }) {
           <dt className="font-medium">Disciplines</dt>
           <dd className="mt-1 flex flex-wrap gap-1.5">
             {project.disciplines.map((d) => (
-              <Tag key={d}>{d}</Tag>
+              <DisciplineTag key={d} discipline={d} />
             ))}
           </dd>
         </div>

@@ -1,17 +1,40 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Discipline, Project } from "@/types/project";
 import { DISCIPLINES } from "@/types/project";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { cn } from "@/lib/cn";
 
+function parseDiscipline(value: string | null): Discipline | null {
+  return (DISCIPLINES as readonly string[]).includes(value ?? "")
+    ? (value as Discipline)
+    : null;
+}
+
 /**
- * Client-side discipline filter. Receives the full (small) project list from
- * the server and filters in memory — no fetching, no state library.
+ * Client-side discipline filter, synced with the `?d=` query parameter so
+ * discipline tags anywhere on the site can deep-link into a filtered view
+ * and filtered views are shareable URLs.
  */
 export function ProjectFilter({ projects }: { projects: Project[] }) {
-  const [active, setActive] = useState<Discipline | null>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const param = parseDiscipline(searchParams.get("d"));
+  const [active, setActive] = useState<Discipline | null>(param);
+
+  // Follow external navigation (e.g. a tag click while already on this page).
+  useEffect(() => {
+    setActive(param);
+  }, [param]);
+
+  function select(d: Discipline | null) {
+    setActive(d);
+    router.replace(d ? `/projects?d=${encodeURIComponent(d)}` : "/projects", {
+      scroll: false,
+    });
+  }
 
   const visible = useMemo(
     () =>
@@ -26,14 +49,14 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
         aria-label="Filter projects by discipline"
         className="flex flex-wrap gap-2"
       >
-        <FilterButton selected={active === null} onClick={() => setActive(null)}>
+        <FilterButton selected={active === null} onClick={() => select(null)}>
           All ({projects.length})
         </FilterButton>
         {DISCIPLINES.map((d) => (
           <FilterButton
             key={d}
             selected={active === d}
-            onClick={() => setActive(d)}
+            onClick={() => select(d)}
           >
             {d}
           </FilterButton>
@@ -46,7 +69,7 @@ export function ProjectFilter({ projects }: { projects: Project[] }) {
           </li>
         ))}
         {/* Placeholder — not a project page, just a signpost for what's coming */}
-        <li aria-hidden="false">
+        <li>
           <div className="flex h-full min-h-64 flex-col items-center justify-center rounded-xl border-2 border-dashed border-line bg-surface p-6 text-center">
             <span className="rounded-full border border-line bg-paper px-3 py-1 text-xs font-medium text-muted">
               In progress

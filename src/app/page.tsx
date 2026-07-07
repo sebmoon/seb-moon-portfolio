@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { ProjectCard } from "@/components/project/ProjectCard";
+import { NextStep } from "@/components/ui/NextStep";
 import { TestimonialCarousel } from "@/features/testimonials/TestimonialCarousel";
-import { getFeaturedProjects } from "@/lib/content";
+import { getAllProjects, getFeaturedProjects } from "@/lib/content";
 import { TESTIMONIALS } from "@/lib/testimonials";
 
 export default function HomePage() {
   const featured = getFeaturedProjects();
+  const total = getAllProjects().length;
 
   return (
     <>
@@ -78,6 +80,14 @@ export default function HomePage() {
           </p>
           <div className="mx-auto mt-8 max-w-3xl">
             <TestimonialCarousel items={TESTIMONIALS} />
+          </div>
+          <div className="mx-auto max-w-3xl">
+            <NextStep
+              title="See the full body of work"
+              description={`${total} projects across product design, mechatronics, manufacturing and visualisation — each one an engineering case study.`}
+              primary={{ href: "/projects", label: "Explore all projects" }}
+              secondary={{ href: "/contact", label: "Get in touch" }}
+            />
           </div>
         </Container>
       </section>

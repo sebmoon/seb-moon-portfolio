@@ -59,6 +59,38 @@ const education = [
   },
 ];
 
+const positions = [
+  {
+    title: "MSc Course Representative, Advanced Manufacturing Engineering and Management",
+    org: "Wolfson School of Engineering, Loughborough University",
+    period: "2025 — 2026",
+    note: "Elected by the MSc cohort as the formal student voice at Staff–Student Liaison Committee meetings — summarising feedback and working with staff to improve module delivery and assessment.",
+  },
+  {
+    title: "Lead Student Engineering Ambassador",
+    org: "Wolfson School of Engineering, Loughborough University",
+    period: "2021 — 2026",
+    note: "Led over 77 engineering facility tours and demonstrations for prospective students and industrial visitors, coordinating other ambassadors.",
+  },
+  {
+    title: "Deputy Head Boy",
+    org: "Maltings Academy",
+    period: "2018 — 2019",
+    note: "",
+  },
+];
+
+const honours = [
+  { title: "Academic Excellence in EPQ", year: "2021" },
+  { title: "Academic Excellence in Product Design", year: "2021" },
+  { title: "Javelin Record Holder, Maltings Academy", year: "2016" },
+];
+
+const clubs = [
+  { title: "American Football Athletics Union", year: "2023 — 2024" },
+  { title: "Loughborough Lawn Tennis Club", year: "2026" },
+];
+
 export default function AboutPage() {
   return (
     <Container className="py-16">
@@ -104,7 +136,7 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-        <figure className="relative aspect-[5.8/5] overflow-hidden rounded-lg border border-line bg-surface">
+        <figure className="relative aspect-[6/5] overflow-hidden rounded-lg border border-line bg-surface">
           <Image
             src="/images/about/portrait.png"
             alt="Seb Moon"
@@ -153,6 +185,63 @@ export default function AboutPage() {
           ))}
         </ul>
       </section>
+
+      {/* Positions of responsibility */}
+      <section aria-labelledby="positions-heading" className="mt-16">
+        <h2 id="positions-heading" className="text-xl font-semibold tracking-tight">
+          Positions of responsibility
+        </h2>
+        <ul className="mt-6 space-y-6">
+          {positions.map((e) => (
+            <li key={e.title} className="border-b border-line pb-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="font-semibold">{e.title}</h3>
+                <span className="text-sm text-muted">{e.period}</span>
+              </div>
+              <p className="mt-0.5 text-sm text-muted">{e.org}</p>
+              {e.note && (
+                <p className="mt-2 max-w-prose text-sm leading-relaxed">{e.note}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Honours & clubs */}
+      <div className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2">
+        <section aria-labelledby="honours-heading">
+          <h2 id="honours-heading" className="text-xl font-semibold tracking-tight">
+            Honours
+          </h2>
+          <ul className="mt-4">
+            {honours.map((h) => (
+              <li
+                key={h.title}
+                className="flex items-baseline justify-between gap-4 border-b border-line py-3 text-sm"
+              >
+                <span>{h.title}</span>
+                <span className="shrink-0 text-muted">{h.year}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section aria-labelledby="clubs-heading">
+          <h2 id="clubs-heading" className="text-xl font-semibold tracking-tight">
+            Clubs
+          </h2>
+          <ul className="mt-4">
+            {clubs.map((c) => (
+              <li
+                key={c.title}
+                className="flex items-baseline justify-between gap-4 border-b border-line py-3 text-sm"
+              >
+                <span>{c.title}</span>
+                <span className="shrink-0 text-muted">{c.year}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
 
       {/* Photos */}
       <section aria-labelledby="photos-heading" className="mt-16">
@@ -207,7 +296,7 @@ export default function AboutPage() {
         </h2>
         <p className="mt-3 max-w-prose text-muted">
           Two promotional films on the official Loughborough University
-          channel in which I&apos;m a key contributor. Click to play.
+          channel in which I&apos;m a main feature. Click to play.
         </p>
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
           <YouTubeEmbed

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
+import { NextStep } from "@/components/ui/NextStep";
 import { ProjectFilter } from "@/features/project-filter/ProjectFilter";
 import { getAllProjects } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -12,6 +14,7 @@ export const metadata: Metadata = pageMetadata(
 
 export default function ProjectsPage() {
   const projects = getAllProjects();
+  const flagship = projects[0];
 
   return (
     <Container className="py-16">
@@ -22,8 +25,20 @@ export default function ProjectsPage() {
         full engineering process; the rest are focused skill demonstrations.
       </p>
       <div className="mt-10">
-        <ProjectFilter projects={projects} />
+        {/* Suspense boundary required for the URL-synced filter */}
+        <Suspense fallback={null}>
+          <ProjectFilter projects={projects} />
+        </Suspense>
       </div>
+      <NextStep
+        title="Want the story behind the work?"
+        description="Start with the flagship case study, or get in touch and I'll walk you through the rest."
+        primary={{
+          href: `/projects/${flagship.slug}`,
+          label: `Start with ${flagship.title.split("—")[0].trim()} →`,
+        }}
+        secondary={{ href: "/contact", label: "Get in touch" }}
+      />
     </Container>
   );
 }
